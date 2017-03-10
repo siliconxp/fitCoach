@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Ionic Blank
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div>
+    <h3>Hey Coach!</h3>
+    <p>What would you like to do?</p>
+
+    <button ion-button block (click)="clientCreatePage()">
+      Add a new Client.
+    </button>
+    
+    <button ion-button block (click)="clientListPage()">
+      Show my client list.
+    </button>
+  </div>
+
+  <div *ngIf="false">
+    Client Zone
+  </div>
+</ion-content>
