@@ -15,6 +15,8 @@ import { ClientData } from '../providers/client-data'
 
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 
+import {MomentModule} from 'angular2-moment';
+
 export const firebaseConfig = {
   apiKey: "AIzaSyDWujPoqHvjd_I-I7ZhwFFPuhvgI-fHQi4",
   authDomain: "track-my-weight-d9926.firebaseapp.com",
@@ -41,6 +43,7 @@ const myFirebaseAuthConfig = {
   ],
   imports: [
     IonicModule.forRoot(MyApp),
+    MomentModule,
     AngularFireModule.initializeApp(firebaseConfig, myFirebaseAuthConfig)
   ],
   bootstrap: [IonicApp],

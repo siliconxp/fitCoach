@@ -1,9 +1,3 @@
-<!--
-  Generated template for the ClientDetail page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
@@ -14,5 +8,28 @@
 
 
 <ion-content padding>
+  <h3>
+    {{ (client | async)?.fullName }}
+  </h3>
 
+  This is the profile page for {{ (client | async)?.fullName }} the starting weight was {{ (client | async)?.startingWeight }} pounds.
+
+  <ion-card>
+    <ion-card-header>
+      <ion-icon name="clipboard"></ion-icon>
+      Weight History
+    </ion-card-header>
+
+    <ion-list>
+      <ion-item *ngFor="let weight of clientWeightTrack | async">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-8>{{ weight.date | amDateFormat:'LL' }}</ion-col>
+            <ion-col col-4>{{ weight.weight }}</ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
 </ion-content>

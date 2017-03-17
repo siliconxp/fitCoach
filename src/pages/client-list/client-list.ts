@@ -1,22 +1,22 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
+import { ClientData } from '../../providers/client-data';
+import { ClientDetailPage } from '../client-detail/client-detail';
+import { FirebaseListObservable } from 'angularfire2';
 
-/*
-  Generated class for the ClientList page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-client-list',
   templateUrl: 'client-list.html'
 })
 export class ClientListPage {
+  clientList: FirebaseListObservable<any>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(public navCtrl: NavController, public clientData: ClientData) {
+    this.clientList = this.clientData.clientListShow();
+  }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ClientListPage');
+  goToClientDetail(clientId: string): void {
+    this.navCtrl.push(ClientDetailPage, { clientId: clientId });
   }
 
 }

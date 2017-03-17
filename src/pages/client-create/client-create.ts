@@ -1,22 +1,39 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ClientData } from '../../providers/client-data';
+import { EmailValidator } from '../../validators/email';
 
-/*
-  Generated class for the ClientCreate page.
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-client-create',
   templateUrl: 'client-create.html'
 })
 export class ClientCreatePage {
+  clientCreateForm: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(public navCtrl: NavController, public clientData: ClientData, 
+    public formBuilder: FormBuilder) {
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ClientCreatePage');
+    this.clientCreateForm = formBuilder.group({
+      name: ['', Validators.required],
+      email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
+      startingWeight: ['', Validators.required]
+    });
+
+  }
+
+  clientCreate(): void {
+    if (!this.clientCreateForm.valid){
+      console.log(this.clientCreateForm.value);
+    } else {
+      this.clientData.clientCreate(this.clientCreateForm.value.name, this.clientCreateForm.value.email, 
+        this.clientCreateForm.value.startingWeight).then( () => {
+          this.navCtrl.pop();
+      }, error => {
+        console.error(error);
+      });
+    }
   }
 
 }
