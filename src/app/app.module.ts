@@ -15,7 +15,7 @@ import { ClientData } from '../providers/client-data'
 
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 
-import {MomentModule} from 'angular2-moment';
+import { MomentModule } from 'angular2-moment';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDWujPoqHvjd_I-I7ZhwFFPuhvgI-fHQi4",

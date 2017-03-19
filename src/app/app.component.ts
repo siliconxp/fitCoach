@@ -30,6 +30,7 @@ export class MyApp {
 
 
     platform.ready().then(() => {
+
       FCMPlugin.onNotification( (data) => {
         if(data.wasTapped){
           authUnsubscribe.unsubscribe();
@@ -39,7 +40,7 @@ export class MyApp {
         }else{
           //Notification was received in foreground. Maybe the user needs to be notified.
           console.log( JSON.stringify(data) );
-          this.navCtrl.setRoot(ClientDetailPage, { clientId: data.clientId});
+          this.navCtrl.push(ClientDetailPage, { clientId: data.clientId});
         }
       });
 

@@ -6,8 +6,6 @@ import { ClientListPage } from '../client-list/client-list';
 import { AuthData } from '../../providers/auth-data';
 import { ClientData } from '../../providers/client-data';
 
-import { FirebaseListObservable } from 'angularfire2';
-
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -15,7 +13,7 @@ import { FirebaseListObservable } from 'angularfire2';
 export class HomePage {
   isAdmin: boolean = false;
   weightTrackForm: any;
-  weightHistory: FirebaseListObservable<any>;
+  weightHistory: any;
 
   constructor(public navCtrl: NavController, public authData: AuthData, 
     public formBuilder: FormBuilder, public clientData: ClientData) {
@@ -28,6 +26,7 @@ export class HomePage {
 
     this.weightHistory = clientData.clientWeightHistory();
   }
+
 
   clientCreatePage(): void {
     this.navCtrl.push(ClientCreatePage);
