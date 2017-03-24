@@ -17,6 +17,9 @@ import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 
 import { MomentModule } from 'angular2-moment';
 
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+
 export const firebaseConfig = {
   apiKey: "AIzaSyDWujPoqHvjd_I-I7ZhwFFPuhvgI-fHQi4",
   authDomain: "track-my-weight-d9926.firebaseapp.com",
@@ -60,7 +63,9 @@ const myFirebaseAuthConfig = {
   providers: [
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthData,
-    ClientData
+    ClientData,
+    StatusBar,
+    SplashScreen
   ]
 })
 export class AppModule {}

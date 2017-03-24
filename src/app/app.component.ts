@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Platform, NavController } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/statusbar';
-import { Splashscreen } from '@ionic-native/splashscreen';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
@@ -18,7 +18,8 @@ export class MyApp {
   @ViewChild('myNav') navCtrl: NavController;
   rootPage: any;
 
-  constructor(platform: Platform, public af: AngularFire) {
+  constructor(platform: Platform, public af: AngularFire, statusBar: StatusBar, 
+    splashScreen: SplashScreen) {
     
     const authUnsubscribe = af.auth.subscribe( user => {
         if (user) {
@@ -46,8 +47,8 @@ export class MyApp {
 
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      StatusBar.styleDefault();
-      Splashscreen.hide();
+      statusBar.styleDefault();
+      splashScreen.hide();
 
     });
 
