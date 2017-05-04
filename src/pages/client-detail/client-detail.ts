@@ -1,21 +1,24 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { ClientData } from '../../providers/client-data';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ClientProvider } from '../../providers/client/client';
 
+@IonicPage({
+  segment: 'client/:clientId'
+})
 @Component({
   selector: 'page-client-detail',
-  templateUrl: 'client-detail.html'
+  templateUrl: 'client-detail.html',
 })
 export class ClientDetailPage {
-  client: any;
-  clientWeightTrack: any;
+  public client: any;
+  public clientWeightTrack: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
-    public clientData: ClientData) {}
+    public clientProvider: ClientProvider) {}
 
   ionViewDidEnter() {
-    this.client = this.clientData.clientDetailShow(this.navParams.get('clientId'));
-    this.clientWeightTrack = this.clientData.clientWeightHistoryCoach(this.navParams.get('clientId'));
+    this.client = this.clientProvider.clientDetailShow(this.navParams.get('clientId'));
+    this.clientWeightTrack = this.clientProvider.clientWeightHistoryCoach(this.navParams.get('clientId'));
   }
 
 }

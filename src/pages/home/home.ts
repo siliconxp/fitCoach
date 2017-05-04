@@ -1,43 +1,43 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { FormBuilder, Validators } from '@angular/forms';
-import { ClientCreatePage } from '../client-create/client-create';
-import { ClientListPage } from '../client-list/client-list';
-import { AuthData } from '../../providers/auth-data';
-import { ClientData } from '../../providers/client-data';
+import { IonicPage, NavController } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthProvider } from '../../providers/auth/auth';
+import { ClientProvider } from '../../providers/client/client';
 
+@IonicPage()
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
 })
 export class HomePage {
-  isAdmin: boolean = false;
-  weightTrackForm: any;
-  weightHistory: any;
+  public isAdmin:boolean = false;
+  public weightTrackForm:FormGroup;
+  public weightHistory:any;
 
-  constructor(public navCtrl: NavController, public authData: AuthData, 
-    public formBuilder: FormBuilder, public clientData: ClientData) {
-    
-    authData.isAsdmin().then( adminStatus => {
+  constructor(public navCtrl: NavController, public authProvider: AuthProvider, 
+    public formBuilder: FormBuilder, public clientProvider: ClientProvider) {
+      
+      this.weightTrackForm = formBuilder.group({ weight: [ Validators.required ] });
+  }
+
+  ionViewDidEnter(){
+    this.authProvider.isAsdmin().then( adminStatus => {
       this.isAdmin = adminStatus;
     });
 
-    this.weightTrackForm = formBuilder.group({ weight: [ Validators.required ] });
-
-    this.weightHistory = clientData.clientWeightHistory();
+    this.weightHistory = this.clientProvider.clientWeightHistory();
   }
 
-
   clientCreatePage(): void {
-    this.navCtrl.push(ClientCreatePage);
+    this.navCtrl.push('ClientCreatePage');
   }
 
   clientListPage(): void {
-    this.navCtrl.push(ClientListPage);
+    this.navCtrl.push('ClientListPage');
   }
 
   weightTrack(): void {
-    this.clientData.clientTrackWeight(this.weightTrackForm.value.weight);
+    this.clientProvider.clientTrackWeight(this.weightTrackForm.value.weight);
     this.weightTrackForm.reset();
   }
 

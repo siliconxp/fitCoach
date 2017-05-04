@@ -1,40 +1,35 @@
-import { 
-  NavController, 
-  LoadingController, 
-  AlertController } from 'ionic-angular';
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { AuthData } from '../../providers/auth-data';
-import { SignupPage } from '../signup/signup';
-import { HomePage } from '../home/home';
-import { PasswordResetPage } from '../password-reset/password-reset';
+import { IonicPage, NavController, LoadingController, Loading, AlertController } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthProvider } from '../../providers/auth/auth';
 import { EmailValidator } from '../../validators/email';
 
+@IonicPage()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
 })
 export class LoginPage {
-  loginForm: any;
-  loading: any;
+  loginForm:FormGroup;
+  loading:Loading;
 
-  constructor(public navCtrl: NavController, public authData: AuthData, public formBuilder: FormBuilder,
-    public alertCtrl: AlertController, public loadingCtrl: LoadingController) {
-
+  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, 
+    public alertCtrl: AlertController, public formBuilder: FormBuilder, 
+    public authProvider: AuthProvider) {
+    
     this.loginForm = formBuilder.group({
       email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
       password: ['', Validators.compose([Validators.minLength(6), Validators.required])]
     });
-
   }
 
   userLogin(): void {
     if (!this.loginForm.valid){
       console.log(this.loginForm.value);
     } else {
-      this.authData.userLogin(this.loginForm.value.email, this.loginForm.value.password).then( authData => {
+      this.authProvider.userLogin(this.loginForm.value.email, this.loginForm.value.password).then( authProvider => {
         this.loading.dismiss().then( () => {
-          this.navCtrl.setRoot(HomePage);
+          this.navCtrl.setRoot('HomePage');
         });
       }, error => {
         this.loading.dismiss().then( () => {
@@ -52,11 +47,11 @@ export class LoginPage {
   }
 
   goToSignup(): void {
-    this.navCtrl.push(SignupPage);
+    this.navCtrl.push('SignupPage');
   }
 
   goToResetPassword(): void {
-    this.navCtrl.push(PasswordResetPage);
+    this.navCtrl.push('PasswordResetPage');
   }
 
 }

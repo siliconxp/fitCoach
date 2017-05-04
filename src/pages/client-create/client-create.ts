@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { FormBuilder, Validators } from '@angular/forms';
-import { ClientData } from '../../providers/client-data';
+import { IonicPage, NavController } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ClientProvider } from '../../providers/client/client';
 import { EmailValidator } from '../../validators/email';
 
-
+@IonicPage()
 @Component({
   selector: 'page-client-create',
-  templateUrl: 'client-create.html'
+  templateUrl: 'client-create.html',
 })
 export class ClientCreatePage {
-  clientCreateForm: any;
+  public clientCreateForm:FormGroup;
 
-  constructor(public navCtrl: NavController, public clientData: ClientData, 
+  constructor(public navCtrl: NavController, public clientProvider: ClientProvider, 
     public formBuilder: FormBuilder) {
 
     this.clientCreateForm = formBuilder.group({
@@ -27,8 +27,9 @@ export class ClientCreatePage {
     if (!this.clientCreateForm.valid){
       console.log(this.clientCreateForm.value);
     } else {
-      this.clientData.clientCreate(this.clientCreateForm.value.name, this.clientCreateForm.value.email, 
-        this.clientCreateForm.value.startingWeight).then( () => {
+      this.clientProvider.clientCreate(this.clientCreateForm.value.name, 
+        this.clientCreateForm.value.email, this.clientCreateForm.value.startingWeight)
+        .then( () => {
           this.navCtrl.pop();
       }, error => {
         console.error(error);

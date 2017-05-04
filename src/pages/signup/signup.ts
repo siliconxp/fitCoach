@@ -1,40 +1,38 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, AlertController } from 'ionic-angular';
-
-import { FormBuilder, Validators } from '@angular/forms';
+import { IonicPage, NavController, LoadingController, Loading, AlertController } from 'ionic-angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmailValidator } from '../../validators/email';
+import { AuthProvider } from '../../providers/auth/auth';
 
-import { AuthData } from '../../providers/auth-data';
-import { HomePage } from '../home/home';
-
+@IonicPage()
 @Component({
   selector: 'page-signup',
-  templateUrl: 'signup.html'
+  templateUrl: 'signup.html',
 })
 export class SignupPage {
-  signupForm: any;
-  loading: any;
+  public signupForm:FormGroup;
+  public loading:Loading;
 
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, 
-    public alertCtrl: AlertController, public formBuilder: FormBuilder, public authData: AuthData) {
+    public alertCtrl: AlertController, public formBuilder: FormBuilder, 
+    public authProvider: AuthProvider) {
 
       this.signupForm = formBuilder.group({
         email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
         password: ['', Validators.compose([Validators.minLength(6), Validators.required])],
         fullName: ['', Validators.compose([Validators.minLength(3), Validators.required])]
       });
-    
   }
 
   userSignup(){
     if (!this.signupForm.valid){
       console.log(this.signupForm.value);
     } else {
-      this.authData.userSignup(this.signupForm.value.email, this.signupForm.value.password, 
+      this.authProvider.userSignup(this.signupForm.value.email, this.signupForm.value.password, 
         this.signupForm.value.fullName)
       .then(() => {
         this.loading.dismiss().then( () => {
-          this.navCtrl.setRoot(HomePage);
+          this.navCtrl.setRoot('HomePage');
         });
       }, (error) => {
         this.loading.dismiss().then( () => {

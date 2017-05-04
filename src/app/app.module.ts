@@ -1,26 +1,18 @@
-import { NgModule, ErrorHandler } from '@angular/core';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import { MyApp } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
+import { ErrorHandler, NgModule } from '@angular/core';
+import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
 
-
-import { HomePage } from '../pages/home/home';
-import { ClientCreatePage } from '../pages/client-create/client-create';
-import { ClientDetailPage } from '../pages/client-detail/client-detail';
-import { ClientListPage } from '../pages/client-list/client-list';
-import { LoginPage } from '../pages/login/login';
-import { PasswordResetPage } from '../pages/password-reset/password-reset';
-import { SignupPage } from '../pages/signup/signup';
-
-import { AuthData } from '../providers/auth-data';
-import { ClientData } from '../providers/client-data'
-
-import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
+import { MyApp } from './app.component';
 
 import { MomentModule } from 'angular2-moment';
+import { AuthProvider } from '../providers/auth/auth';
+import { ClientProvider } from '../providers/client/client';
 
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyDWujPoqHvjd_I-I7ZhwFFPuhvgI-fHQi4",
@@ -30,45 +22,28 @@ export const firebaseConfig = {
   messagingSenderId: "1011429127424"
 };
 
-const myFirebaseAuthConfig = {
-  provider: AuthProviders.Password,
-  method: AuthMethods.Password
-}
-
 @NgModule({
   declarations: [
-    MyApp,
-    HomePage,
-    ClientCreatePage,
-    ClientDetailPage,
-    ClientListPage,
-    LoginPage,
-    PasswordResetPage,
-    SignupPage
+    MyApp
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    MomentModule,
-    AngularFireModule.initializeApp(firebaseConfig, myFirebaseAuthConfig)
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    MomentModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    HomePage,
-    ClientCreatePage,
-    ClientDetailPage,
-    ClientListPage,
-    LoginPage,
-    PasswordResetPage,
-    SignupPage
+    MyApp
   ],
   providers: [
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthData,
-    ClientData,
     StatusBar,
-    SplashScreen
+    SplashScreen,
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    AuthProvider,
+    ClientProvider
   ]
 })
 export class AppModule {}
