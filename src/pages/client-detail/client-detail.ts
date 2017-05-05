@@ -18,7 +18,8 @@ export class ClientDetailPage {
 
   ionViewDidEnter() {
     this.client = this.clientProvider.clientDetailShow(this.navParams.get('clientId'));
-    this.clientWeightTrack = this.clientProvider.clientWeightHistoryCoach(this.navParams.get('clientId'));
+    this.clientWeightTrack = this.clientProvider
+      .clientWeightHistoryCoach(this.navParams.get('clientId'));
   }
 
 }

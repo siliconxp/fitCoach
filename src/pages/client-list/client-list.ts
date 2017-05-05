@@ -10,8 +10,10 @@ import { ClientProvider } from '../../providers/client/client';
 export class ClientListPage {
   public clientList:any;
 
-  constructor(public navCtrl: NavController, public clientProvider: ClientProvider) {
-    this.clientList = clientProvider.clientListShow();
+  constructor(public navCtrl: NavController, public clientProvider: ClientProvider) {}
+
+  ionViewDidEnter(){
+    this.clientList = this.clientProvider.clientListShow();
   }
 
   goToClientDetail(clientId: string): void {
